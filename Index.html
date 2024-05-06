@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submission Form</title>
+</head>
+<body>
+    <h1>User Information Form</h1>
+    <form id="submissionForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+
+        <label for="mobile">Mobile Number:</label>
+        <input type="text" id="mobile" name="mobile"><br><br>
+
+        <div id="couponCodes">
+            <label for="coupon0">Coupon Code:</label>
+            <input type="text" id="coupon0" name="coupon[]"><br><br>
+        </div>
+        <button type="button" onclick="addCouponCode()">Add Another Coupon Code</button><br><br>
+
+        <label for="pin">Pin Code:</label>
+        <input type="text" id="pin" name="pin"><br><br>
+
+        <label for="aadhaar">Aadhaar Number:</label>
+        <input type="text" id="aadhaar" name="aadhaar"><br><br>
+
+        <label for="retailer">Retailer Code:</label>
+        <input type="text" id="retailer" name="retailer"><br><br>
+
+        <input type="button" value="Submit" onclick="submitForm()">
+    </form>
+
+    <script>
+        let couponCount = 1;
+        function addCouponCode() {
+            if (couponCount < 5) {
+                const container = document.getElementById('couponCodes');
+                const newField = document.createElement('div');
+                newField.innerHTML = `<label for="coupon${couponCount}">Coupon Code:</label>
+                                      <input type="text" id="coupon${couponCount}" name="coupon[]"><br><br>`;
+                container.appendChild(newField);
+                couponCount++;
+            }
+        }
+
+        function submitForm() {
+            const form = document.getElementById('submissionForm');
+            const formData = new FormData(form);
+            fetch('https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec', {
+                method: 'POST',
+                body: formData
+            }).then(response => response.text())
+              .then(result => alert(result))
+              .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
